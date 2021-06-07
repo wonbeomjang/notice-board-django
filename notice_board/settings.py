@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-*_mtvgz+&6%p$ysm!fg7_zgyw3qye!vxclw)&eq!_w4k5ar(+(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '2d57baf285f6455d80f15cfe93d5af54.vfs.cloud9.us-east-2.amazonaws.com',
+    '18.188.20.64',
+]
 
 
 # Application definition
@@ -37,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'post.apps.PostConfig',
+    'accounts.apps.AccountsConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
