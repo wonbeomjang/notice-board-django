@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import datetime
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '2d57baf285f6455d80f15cfe93d5af54.vfs.cloud9.us-east-2.amazonaws.com',
-    '18.188.20.64',
+    '3.142.123.160',
 ]
 
 
@@ -44,6 +45,14 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'rest_framework',
 ]
+
+JWT_AUTH = {
+    'JWT_SECRET_KEY': 'ASDFASD',
+    'JWT_ALGORITHM': 'HS256',
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=28),
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
