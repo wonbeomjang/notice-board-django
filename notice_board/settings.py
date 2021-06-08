@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '2d57baf285f6455d80f15cfe93d5af54.vfs.cloud9.us-east-2.amazonaws.com',
-    '18.118.36.82',
+    '18.117.246.151',
 ]
 
 
@@ -50,7 +50,9 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    ]
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 3, 
 }
 
 JWT_AUTH = {

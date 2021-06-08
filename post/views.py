@@ -6,9 +6,13 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from .serializer import PostSerializer
 from .models import Post
+from .pagination import PostPageNumberPagination
 
-class PostViewset(viewsets.ViewSet):
+class PostViewset(viewsets.ModelViewSet):
     authentication_classes = (JSONWebTokenAuthentication,)
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    pagination_class = PostPageNumberPagination
     
     def create(self, request, id=None):
         if request.user.is_anonymous:
@@ -21,25 +25,17 @@ class PostViewset(viewsets.ViewSet):
         post = Post(title=title, description=description, user=user)
         post.save()
         
-        serializer = PostSerializer(post)
-        
-        return Response(serializer.data)
-        
-    def list(self, request, id=None):
-        queryset = Post.objects.all()
-        serializer = PostSerializer(queryset, many=True)
+        SerializerClass = self.get_serializer_class()
+        serializer = SerializerClass(post)
         
         return Response(serializer.data)
     
-class PostElementViewset(viewsets.ViewSet):
+class PostElementViewset(viewsets.ModelViewSet):
     authentication_classes = (JSONWebTokenAuthentication,)
-        
-    def retrieve(self, request, id=None):
-        post = get_object_or_404(Post, id=id)
-        serializer = PostSerializer(post)
-        
-        return Response(serializer.data)
-        
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    lookup_field = 'id'
+    
     def update(self, request, id=None):
         post = get_object_or_404(Post, id=id)
         
@@ -52,21 +48,10 @@ class PostElementViewset(viewsets.ViewSet):
             post.description = description
         
         post.save()
-        serializer = PostSerializer(post)
+        SerializerClass = self.get_serializer_class()
+        serializer = SerializerClass(post)
         
         return Response(serializer.data)
-    
-    def destroy(self, request, id=None):
-        post = get_object_or_404(Post, id=id)
-        
-        if post.user == request.user:
-            post.delete()
-            return Response({'message': 'ok'})
-        
-        return Response({'message': 'token is needed'}, status=status.HTTP_401_UNAUTHORIZED)
-        
-    
-    
     
     
 # Create your views here.
