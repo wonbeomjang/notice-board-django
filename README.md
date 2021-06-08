@@ -39,6 +39,8 @@ Postman 제한ㅠㅠ
 ## 실행
 ```
 pip install -r requirements.txt
-python migrate
+python manage.py makemigrations post
+python manage.py makemigrations accounts
+python manage.py migrate
 python manage.py runserver
 ```
