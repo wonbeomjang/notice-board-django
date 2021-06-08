@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '2d57baf285f6455d80f15cfe93d5af54.vfs.cloud9.us-east-2.amazonaws.com',
-    '3.142.123.160',
+    '18.118.36.82',
 ]
 
 

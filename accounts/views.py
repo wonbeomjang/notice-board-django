@@ -38,7 +38,7 @@ class Login(viewsets.ViewSet):
             return Response({"message": "Request Body Error."}, status=status.HTTP_409_CONFLICT)
             
         if serializer.validated_data['username'] == "None":
-            return Response({'message': 'fadil'}, status=status.HTTP_200_OK)
+            return Response({'message': 'fail'}, status=status.HTTP_200_OK)
 
         response = {
             'success': 'True',
