@@ -5,8 +5,7 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from rest_framework.response import Response
-from rest_framework.authentication import TokenAuthentication
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.response import Response
 
 # from rest_framework_jwt.authentication import 
@@ -44,27 +43,24 @@ class Login(viewsets.ViewSet):
             'token': serializer.data['token'],
         }
         return Response(response, status=status.HTTP_200_OK)
-
-
-class AccountList(viewsets.ViewSet):
-    
-    def list(self, request, id=None):
-        queryset = User.objects.all()
-        serializer = AccountSerializer(queryset, many=True)
         
-        return Response(serializer.data)
-    
-    def retrieve(self, request, id=None):
-        user = get_object_or_404(User, id=id)
-        serializer = AccountSerializer(user)
-        
-        return Response(serializer.data)
-
-class CustomAuthToken(viewsets.ViewSet):
+class Withdrawal(viewsets.ModelViewSet):
     authentication_classes = (JSONWebTokenAuthentication,)
+    queryset = User.objects.all()
+    serializer_class = AccountSerializer
     
-    def retrieve(self, request):
-        # print(JWT_DECODE_HANDLER(request.headers['Authorization'].split()[-1]))
-        print(request.user)
-        return Response({'token': 1})
+    def destroy(self, request, id=None):
+        queryset = self.get_queryset()
+        
+        user = get_object_or_404(queryset, username=request.user.username)
+        user.delete()
+        
+        return Response({'message': 'ok'})
+
+
+class AccountList(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = AccountSerializer
+    lookup_field = 'id'
+
 # Create your views here.

@@ -9,5 +9,5 @@ urlpatterns = [
     path('<int:id>', views.AccountList.as_view({'get': 'retrieve'})),
     path('login', views.Login.as_view({'post': 'create'})),
     path('register', views.Register.as_view({'post': 'create'})),
-    path('token', views.CustomAuthToken.as_view({'get': 'retrieve'})),
+    path('withdrawal', views.Withdrawal.as_view({'post': 'destroy'})),
 ]

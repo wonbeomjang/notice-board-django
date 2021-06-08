@@ -12,7 +12,7 @@ class PostViewset(viewsets.ModelViewSet):
     authentication_classes = (JSONWebTokenAuthentication,)
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    pagination_class = PostPageNumberPagination
+    # pagination_class = PostPageNumberPagination
     
     def create(self, request, id=None):
         if request.user.is_anonymous:
@@ -38,6 +38,9 @@ class PostElementViewset(viewsets.ModelViewSet):
     
     def update(self, request, id=None):
         post = get_object_or_404(Post, id=id)
+        
+        if request.user != post.user:
+            return Response({'message': 'token is needed'}, status=status.HTTP_401_UNAUTHORIZED)
         
         title = request.POST.get('title')
         description = request.POST.get('description')
